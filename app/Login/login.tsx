@@ -2,14 +2,17 @@
 import React, { useState } from 'react'
 import Image from "next/image";
 import loginLogo from "../../public/login.png";
+import { redirect } from 'next/navigation';
 
 const handleSubmit = (formData: FormData) => {
-    const username = formData.get('uname');
+    const rawUsername = String(formData.get('uname'));
     const password = formData.get('password');
+    const username = rawUsername.charAt(0).toUpperCase() + rawUsername.slice(1);
     console.log(username, password);
-    if (username === 'Revathi' && password === 'Password@123') {
+    if (username === 'Revathi' && password === 'Password123') {
         console.log('Login successful');
         alert('Login successful');
+        redirect('/Dashboard');  
     } else {
         alert('Invalid username or password');
         console.log('Invalid username or password');
@@ -31,20 +34,20 @@ const Login = () => {
   return (
     <div>
         <h1 className="flex items-center text-3xl font-bold text-black dark:text-white">
-          <Image src={loginLogo} alt="Login Logo" width={75} height={75} />
+          <Image src={loginLogo} alt="Login Logo" className="mr-2" width={75} height={75} />
           Login
         </h1>
         <form action={handleSubmit}>
-          <div className='flex flex-row justify-center gap-4'>
+          <div className='flex flex-row justify-center mt-2 gap-4'>
             <label htmlFor="username">Username</label>
             <input type="text" id="uname" name="uname" onChange={handleUsernameChange} placeholder="User name or Email" />
           </div>
-          <div className='flex flex-row justify-center gap-4'>
+          <div className='flex flex-row justify-center mt-2 gap-4'>
             <label htmlFor="password">Password</label>
             <input type="password" id="password" name="password" onChange={handlePasswordChange} placeholder="Password" />
           </div>    
-          <div className="flex flex-col justify-center gap-2">
-            <button type="submit" disabled={computedIsDisabled} className='bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed'>Login</button>
+          <div className="flex flex-col mt-4 justify-center gap-2">
+            <button type="submit" disabled={computedIsDisabled} className='bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'>Login</button>
           </div>
         </form>
     </div>
